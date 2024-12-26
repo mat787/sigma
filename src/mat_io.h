@@ -6,10 +6,6 @@ typedef struct _Matrix {
 				double **data;
 } Matrix;
 
-/**
- * Zwraca 0 - udalo sie wczytac
- * Zwraca 1 - podczas wczytywania wystapil blad
- */
 Matrix * readFromFile(char * fname);
 void printToScreen(Matrix *mat);
 
