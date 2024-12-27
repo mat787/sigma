@@ -1,6 +1,6 @@
 #include "gauss.h"
 #include <stdio.h>
-#
+#include <math.h>
 
 /**
  * Zwraca 0 - elimnacja zakonczona sukcesem
@@ -34,10 +34,31 @@ int eliminate(Matrix *mat, Matrix *b)
         		{
         		        workMat->data[i][n] = b->data[i][0];
         		}
+
+				
 //eliminacja gaussa
         		for(j = 0; j < n; j++)
         		{
-        		        for(i = 0; i < n; i++)
+				int index_max = j;
+				int wartosc_max =workMat->data[index_max][j];
+        		        for(i = j+1; i<n; i++)
+                                {
+                                        if (fabs(workMat->data[i][j]) > wartosc_max )
+                                                wartosc_max = workMat->data[i][j], index_max = i;
+                                }
+                                if (!workMat->data[j][index_max])
+				{
+					printf("return j = %d\n", j);
+                                        return j;
+				}
+                                if (index_max != j)
+                                {
+					printf("swap %d, %d\n", j, index_max);
+                                	//swap_rows(workMat,j,index_max);
+                                }
+				
+
+				for(i = 0; i < n; i++)
         		        {
                 		        if(i>j)
                 	        	{
@@ -70,11 +91,16 @@ int eliminate(Matrix *mat, Matrix *b)
         		{
         		        b->data[i][0] = workMat->data[i][n];
         		}
-// zwolnienie macierzy rozszerzonej
+// zwolnienie macierzy rozszerzone
+printToScreen(workMat);
+printToScreen(mat);
+printToScreen(b);
+
 			freeMatrix(workMat);
 			return 0;
 		} else printf("Nie udalo sie utworzyc macierzy rozszerzonej\n");
 	} else printf("Macierz nie jest kwadratowa\n");
 	return -1;
+
 }
 

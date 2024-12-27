@@ -12,6 +12,7 @@ typedef struct _Matrix {
  */
 Matrix * readFromFile(char * fname);
 void printToScreen(Matrix *mat);
+void swap_rows(Matrix *mat, int i, int j);
 
 Matrix * createMatrix(int r, int c);
 void freeMatrix(Matrix *mat);
