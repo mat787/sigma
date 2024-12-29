@@ -9,7 +9,9 @@
 
 int eliminate(Matrix *mat, Matrix *b)
 {
-	int i,j,k,c;
+	int i,j,k;
+	double c;
+
 	Matrix* workMat;
 	
         if(mat->r == mat->c)
@@ -34,50 +36,40 @@ int eliminate(Matrix *mat, Matrix *b)
         		{
         		        workMat->data[i][n] = b->data[i][0];
         		}
+// eliminacja Gaussa z pivotem
 
-				
-//eliminacja gaussa
-        		for(j = 0; j < n; j++)
-        		{
-				int index_max = j;
-				int wartosc_max =workMat->data[index_max][j];
-        		        for(i = j+1; i<n; i++)
+             		for(i = 0; i < n; i++)
+		     	{
+				int pivot = i;
+                                for(j = i+1; j<n; j++)
                                 {
-                                        if (fabs(workMat->data[i][j]) > wartosc_max )
-                                                wartosc_max = workMat->data[i][j], index_max = i;
-                                }
-                                if (!workMat->data[j][index_max])
-				{
-					printf("return j = %d\n", j);
-                                        return j;
+				        if (fabs(workMat->data[j][i]) > fabs(workMat->data[pivot][i]))
+                                        {
+                                                pivot = j;
+                                        }
 				}
-                                if (index_max != j)
+                                if (workMat->data[i][pivot]==0.0)
                                 {
-					printf("swap %d, %d\n", j, index_max);
-                                	//swap_rows(workMat,j,index_max);
+                                        printf("Dzielenie przez 0\n");
+                                        freeMatrix(workMat);
+                                        return 1;
                                 }
-				
+                                 if (pivot != i)
+                                {
+                                      swap_rows(workMat,i,pivot);
+                                }
+                       		for(j = i+1; j < n; j++)
+                                {
 
-				for(i = 0; i < n; i++)
-        		        {
-                		        if(i>j)
-                	        	{
-						if (workMat->data[j][j] == 0.0)
-						{
-							printf("Dzielenie przez 0\n");
-							freeMatrix(workMat);
-							return 1;
-						}
-						
-                	                	c = workMat->data[i][j]/workMat->data[j][j];
-	
-	                                	for(k=0; k<=n; k++)
-	                                	{
-	                                	        workMat->data[i][k] = workMat->data[i][k]-c*workMat->data[j][k];
-	                                	}
-        	                	}
-        	        	}
-        		}
+                                        c = workMat->data[j][i]/workMat->data[i][i];
+
+                                        for(k=i; k<=n; k++)
+                                        {
+                                                workMat->data[j][k] -= c*workMat->data[i][k];
+                                        }
+                                }
+
+			}				
 //przepisanie workmat do mat
         		for (i = 0; i < n; i++)
         		{
@@ -91,11 +83,7 @@ int eliminate(Matrix *mat, Matrix *b)
         		{
         		        b->data[i][0] = workMat->data[i][n];
         		}
-// zwolnienie macierzy rozszerzone
-printToScreen(workMat);
-printToScreen(mat);
-printToScreen(b);
-
+// zwolnienie macierzy rozszerzonej
 			freeMatrix(workMat);
 			return 0;
 		} else printf("Nie udalo sie utworzyc macierzy rozszerzonej\n");
