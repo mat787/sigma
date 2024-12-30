@@ -36,5 +36,3 @@ int  backsubst(Matrix *x, Matrix *mat, Matrix *b) {
                 }
 				return 0;
 }
-
-
