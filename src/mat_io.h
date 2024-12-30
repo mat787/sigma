@@ -5,7 +5,6 @@ typedef struct _Matrix {
 				int r,c;
 				double **data;
 } Matrix;
-
 /**
  * Zwraca 0 - udalo sie wczytac
  * Zwraca 1 - podczas wczytywania wystapil blad

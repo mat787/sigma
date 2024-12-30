@@ -1,7 +1,6 @@
 #include "mat_io.h"
 #include <stdio.h>
 #include <stdlib.h>
-
 /**
  * Zwraca <> NULL - udalo sie wczytac
  * Zwraca == NULL - podczas wczytywania wystapil blad
